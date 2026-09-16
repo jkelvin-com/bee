@@ -1,0 +1,44 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate plugin
+        run: |
+          python3 - <<'PY'
+          import json, pathlib, re, sys
+          d = json.load(open(".claude-plugin/plugin.json"))
+          assert d["name"] == "bee", d["name"]
+          json.load(open(".mcp.json"))
+          for s in pathlib.Path("skills").iterdir():
+              if not s.is_dir():
+                  continue
+              fm = (s / "SKILL.md").read_text().split("---")[1]
+              name = re.search(r"^name:\s*(\S+)", fm, re.M).group(1)
+              desc = re.search(r"^description:\s*(.+)$", fm, re.M).group(1)
+              assert name == s.name, f"{name} != {s.name}"
+              assert "<" not in desc and ">" not in desc, f"angle bracket in {s.name} description"
+          modes = sorted(p.stem for p in pathlib.Path("skills/bee/references/modes").glob("*.md"))
+          assert modes == ["log", "recall", "remind", "reply", "report", "setup", "triage"], modes
+          print("validated", d["version"])
+          PY
+
+      - name: Build
+        run: bash scripts/package.sh dist
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/bee.plugin
+          generate_release_notes: true

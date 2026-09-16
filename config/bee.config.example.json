@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "user_name": "Alex",
+  "agent_name": "claude",
+  "timezone": "UTC",
+  "send": {
+    "paragraph_per_message": true,
+    "gap_seconds": [
+      1,
+      2
+    ]
+  },
+  "backend": {
+    "type": "github-vault",
+    "github": {
+      "owner": "your-github-username",
+      "repo": "your-vault-repo",
+      "branch": "main",
+      "layout": "obsidian-ai"
+    },
+    "local": {
+      "folder": "~/Documents/vault",
+      "layout": "obsidian-ai"
+    },
+    "notion": {
+      "styles_page": "page id or title",
+      "notes_database": "database id or title"
+    },
+    "notebooklm": {
+      "notebook_url": "https://notebooklm.google.com/notebook/NOTEBOOK_ID"
+    }
+  },
+  "layout_obsidian_ai": {
+    "write_dir": "AI/",
+    "filename": "{agent}-{YYYY-MM-DD-HHMM}-{slug}.md",
+    "first_line": "[[AI]]",
+    "base_tags": [
+      "ai"
+    ],
+    "rules_file": "CORE/INSTRUCTIONS.md",
+    "heartbeat_file": "CORE/heartbeat.md",
+    "style_files": [
+      "TOPICS/writing-voice.md",
+      "CORE/preferences.md"
+    ],
+    "learned_style_glob": "AI/*-bee-style-*.md"
+  }
+}

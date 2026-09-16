@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "Beeper Desktop": {
+      "type": "http",
+      "url": "http://localhost:23373/v0/mcp",
+      "headers": { "Authorization": "Bearer ${BEEPER_ACCESS_TOKEN}" }
+    },
+    "GitHub_MCP": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/"
+    },
+    "Notion": {
+      "type": "http",
+      "url": "https://mcp.notion.com/mcp"
+    }
+  }
+}
