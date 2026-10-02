@@ -4,7 +4,7 @@
 
 bee reads your Beeper inbox, replies **in your own voice**, finds old messages, sets follow-ups, and keeps a timestamped log of real-life moments (especially work you finished for clients) so you can build a report later.
 
-Your writing style is **never stored in the plugin**. bee pulls it live from a memory backend you choose — a GitHub vault (default), a local Obsidian folder, Notion, or NotebookLM — so it stays yours and keeps updating.
+Your writing style is **never stored in the plugin**. bee pulls it live from a memory backend you choose — a Google Drive vault (default), a GitHub vault (fallback relay), a local Obsidian folder, Notion, or NotebookLM — so it stays yours and keeps updating.
 
 > **Install with your AI in one line:** paste this into Claude (Cowork) and it will do the rest —
 > `Install the bee plugin from https://github.com/jkelvin-com/bee — follow INSTALL-FOR-AI.md`
@@ -15,12 +15,13 @@ Your writing style is **never stored in the plugin**. bee pulls it live from a m
 
 | Say | Mode | Does |
 |---|---|---|
-| `/bee` or "bee, what's new?" | **triage** *(default)* | Numbered digest of unread chats, urgent first |
+| `/bee` or "bee, what's new?" | **triage** *(default)* | Numbered digest of EVERY unread chat (muted and low-priority included), urgent first, a draft per reply |
 | `/bee reply Sam …` | **reply** | Drafts in your register, shows every edit, sends paragraph-by-paragraph |
 | `/bee recall invoice` | **recall** | Literal search + timeline + summary; can save as a recall note |
-| `/bee remind Sam tomorrow 9am` | **remind** | Native Beeper reminders; "who am I waiting on" |
-| `/bee log quote Q-1042 sent to Acme Co` | **log** | Timestamped moment, kept separate from chat recalls |
+| `/bee remind Jamie tomorrow 9am` | **remind** | Native Beeper reminders; "who am I waiting on" |
+| `/bee log quotation sent to Acme Co` | **log** | Timestamped moment, kept separate from chat recalls |
 | `/bee report Acme Co this month` | **report** | Numbered deliverables list from the moments log |
+| `/bee dispatch` | **dispatch** | Sends the replies you confirmed (queued in `Workings/bee-send/`), hourly routine |
 | `/bee setup` | **setup** | Interview → picks backend, name, timezone; smoke test |
 | `/bee help` | — | Prints the mode list |
 
@@ -35,7 +36,8 @@ Two streams, never mixed: **moments** (real life, `bee-moments`) vs **recall** (
 1. **Claude Cowork** (desktop app) — bee is a Cowork plugin.
 2. **Beeper Desktop** running on the same computer, with the **Desktop API / MCP** enabled (Beeper → Settings → Developer → *Beeper Desktop API* → enable, copy the access token). Then connect it in Cowork as a local MCP (it appears as *Beeper Desktop*). If Cowork already lists Beeper Desktop under your connectors, you're done.
 3. **One memory backend** (pick during setup):
-   - **GitHub vault** (default) — a repo holding an Obsidian-style vault + the **GitHub connector** in Cowork. Empty repo is fine; setup bootstraps the layout.
+   - **Google Drive vault** (default) — an Oaa2B vault in Google Drive ([setup](https://github.com/jkelvin-com/Oaa2B)) + the **Google Drive connector** in Cowork.
+   - **GitHub vault** (fallback) — a repo holding an Obsidian-style vault + the **GitHub connector** in Cowork. Empty repo is fine; setup bootstraps the layout.
    - **Local vault folder** — a folder on this Mac/PC; you'll be asked to grant folder access.
    - **Notion** — the **Notion connector** + a page for styles and a database for notes.
    - **NotebookLM** — a notebook URL; needs the built-in browser or Claude in Chrome. Slower, append-only.
@@ -68,10 +70,10 @@ Send Claude the repo link with: *"Install the bee plugin from https://github.com
 Stored by `/bee setup`; see `config/bee.config.example.json`. Key fields:
 
 ```json
-"backend": { "type": "github-vault", "github": { "owner": "you", "repo": "vault", "branch": "main", "layout": "obsidian-ai" } }
+"backend": { "type": "drive-vault", "drive": { "root": "brain", "vault_folder": "Vault", "inbox_folder_id": "<0-inbox folder id>", "layout": "oaa2b" } }
 ```
 
-**obsidian-ai layout** (default for vault backends): AIs write only inside `AI/`, filename `<agent>-YYYY-MM-DD-HHMM-slug.md`, first line `[[AI]]`, `tags: [ai]`, never edit files they didn't create. Styles are read from `TOPICS/writing-voice.md` and `CORE/preferences.md`; registers bee learns before you promote them live in `AI/*-bee-style-*.md`. Custom layouts: add a `layout_<name>` block and point `backend.<type>.layout` at it.
+**Oaa2B layout** (default for vault backends): AIs only create new files in `0-inbox`, titled `<slug>-<agent>-<surface>-YYYY-MM-DD-HHMM.md`, frontmatter on line 1, `↑ [[INBOX]]` as the first body line, never edit files they didn't create. Styles are read from the vault notes `me-talk-preferences` and `me-writing-voice`; registers bee learns before they are filed live in `0-inbox` as `bee-style-*` notes. (The older `obsidian-ai` layout, `AI/` folder with `[[AI]]`, is still supported for repos that have not moved.) Custom layouts: add a `layout_<name>` block and point `backend.<type>.layout` at it.
 
 Switch backend any time: *"switch bee to Notion"*.
 
@@ -112,6 +114,6 @@ INSTALL-FOR-AI.md            step list an AI follows to install bee for you
 
 ## Versioning & backup
 
-Versions follow the 3-6-9 scheme starting at **v3.6.9.0** (then v3.6.9.1, v3.6.9.2 …). Every release is a git tag + a `bee.plugin` asset. Your installed copy, this repo, and the release asset are three independent copies. Vault backends additionally get a `setup` note recording which bee version configured them.
+Versions follow the 3-6-9 scheme starting at **v3.6.9.0** (next: v3.6.9.1, v3.6.9.2 …). Every release is a git tag + a `bee.plugin` asset. Your installed copy, this repo, and the release asset are three independent copies. Vault backends additionally get a `setup` note recording which bee version configured them.
 
 MIT © 2026 富源承忠 jKelvin.com

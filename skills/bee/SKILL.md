@@ -1,6 +1,6 @@
 ---
 name: bee
-description: Beeper helper — ONE command, the mode is the first argument. Use on "/bee", "bee", "hey bee", or any request about the user's Beeper / WhatsApp / Instagram / Telegram / iMessage chats. Modes are triage ("what's new", "who needs a reply", "unread", "catch me up", "anything urgent"), reply ("reply to X", "tell X", "send X", "write back to X as me", "fix this before sending"), recall ("what did X say about", "find the message where", "search my chats", "when did we agree", "did X mention"), remind ("remind me about X", "follow up with X", "who am I waiting on", "who hasn't replied", "clear the reminder", "what did I promise"), log ("log this", "note that I", "moment", "done for [client]", "mark complete", "timestamp this"), report ("report for [client]", "what did we complete", "summarise this week's moments", "what got done"), setup ("set up bee", "install bee", "configure bee", "switch bee to Notion / local vault / NotebookLM / GitHub", "change my vault").
+description: "Beeper helper, ONE command, the mode is the first argument. Use on \"/bee\", \"bee\", \"hey bee\", or any request about the user's Beeper / WhatsApp / Instagram / Telegram / iMessage chats. Modes: triage (\"what's new\", \"who needs a reply\", \"unread\", \"catch me up\"), reply (\"reply to X\", \"tell X\", \"write back to X as me\", \"fix this before sending\"), recall (\"what did X say about\", \"search my chats\", \"did X mention\"), remind (\"follow up with X\", \"who am I waiting on\", \"what did I promise\"), log (\"log this\", \"done for [client]\", \"timestamp this\"), report (\"report for [client]\", \"what got done\"), dispatch (\"send the confirmed replies\", \"run the send routine\"), setup (\"set up bee\", \"switch bee to Notion / local vault / GitHub\")."
 ---
 
 # 🐝 bee
@@ -22,6 +22,7 @@ bee [mode] [rest]                  ← bare form, no slash, works the same
 | `remind` · `followup` · `waiting` · `promised` · `snooze` · `clear` | **remind** | `modes/remind.md` |
 | `log` · `moment` · `done` · `record` | **log** | `modes/log.md` |
 | `report` · `deliverables` · `summary` | **report** | `modes/report.md` |
+| `dispatch` · `outbox` · `flush` · `autosend` | **dispatch** | `modes/dispatch.md` |
 | `setup` · `config` · `backend` · `install` · `switch` | **setup** | `modes/setup.md` |
 | `help` · `?` · `modes` | print the mode list in 3 lines, do nothing |
 
@@ -42,9 +43,16 @@ bee [mode] [rest]                  ← bare form, no slash, works the same
 6. **Beeper search is literal, not semantic** — single words, ALL words must match. Search participants for people, titles for groups.
 7. **Address the user** by `config.user_name`. Replies to the user: short numbered lines, no preamble.
 8. **Both sides** — any durable rule or register the user states → backend note AND Anthropic memory (if `memory_*` tools exist) in the same turn.
-9. **Never** send, archive, or set reminders on a chat the user did not name in this conversation.
+9. **Never** send, archive, or set reminders on a chat the user did not name in this conversation. One exception: **dispatch** sends a `SEND-` file from `Workings/bee-send/`, which is the user's confirmation written down.
+10. **Workings** — scheduled routines write their output to `<workings.root>/<routine>/` (example `brain/Workings/`) per `references/workings.md`. Read it for routine runs only.
+11. **Unattended runs** (scheduled routine, nobody to ask): never stop to ask a question; take the documented default, say what was assumed in one line, keep going.
 
 ## Chaining
 
 Modes hand off to each other inside the same run — say which mode is taking over, do not ask the user to type a second command:
-`triage → reply` · `remind → reply` · `reply → log` · `report → reply`.
+`triage → reply` · `triage → dispatch` (via `queue N`) · `remind → reply` · `reply → log` · `report → reply`.
+
+## Routines (scheduled)
+- Every 3 hours, 9:27 to 0:27 (config timezone): `/bee triage routine` → reconcile every unread message, drafts, save `NOW.md`.
+- Hourly at :12, 9:12 to 0:12 (the 9:12, 12:12, 15:12, 18:12, 21:12 and 0:12 runs land 15 minutes before each triage): `/bee dispatch` → send the replies the user confirmed, then record each one in `Workings/bee-triage/decisions/`.
+- Claude Code reconcile (outside this plugin): learns from `decisions/` into `me-reply-patterns`.

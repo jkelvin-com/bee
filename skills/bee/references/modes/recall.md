@@ -8,7 +8,7 @@
 3. **Context** — for the best hits, `list_messages` around them to read the surrounding 5–10 messages so the meaning is right.
 4. **Answer** — numbered timeline, newest last:
    `1. 2026-09-08 22:14 · Sam → me: asked if the March invoice is due this week`
-   `2. 2026-09-08 22:40 · me → Sam: said it can wait till after the 15th`
+   `2. 2026-09-08 22:40 · me → Sam: said it can wait till after 15 Sep`
    then one line `Summary: …` and, if there is an open question in the thread, one line `Open: …`.
    Quote exact wording only when the user asks "exact words" — otherwise paraphrase.
 5. **Persist** — ask nothing; write a `recall` note (stream B) only when the user says "save", "keep", "note this", or when the recall took > 3 searches (then say "saved as recall note <name>"). Never write recalls into a moments note.

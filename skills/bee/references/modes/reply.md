@@ -11,7 +11,7 @@ Decide from the recipient and the thread, then confirm silently unless unsure:
 - `client` — customers, vendors, officials (ghostwriting voice)
 - `formal` — official notices, complaints, legal-ish
 - `family`, `friend-zh`, `friend-ms`, `aggressive`, … — any other register the user has taught bee
-Call `read_style(register)` via the backend adapter.
+Call `read_style(register)` via the backend adapter. It also returns the learned person and category patterns from `me-reply-patterns`; apply them.
 - **Known** → use it exactly. Preserve the user's specific spellings and phrasings the style file lists.
 - **`unknown`** → STOP and ask one question: "I don't have a `<register>` style yet — describe it in a few lines, or paste a sample you've sent before." When the user answers:
   1. Write it as a `style` note (stream C) with `style: <register>` and the rules exactly as stated.

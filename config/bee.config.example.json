@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "user_name": "Alex",
   "agent_name": "claude",
   "timezone": "UTC",
@@ -11,12 +11,19 @@
     ]
   },
   "backend": {
-    "type": "github-vault",
+    "type": "drive-vault",
+    "drive": {
+      "root": "brain",
+      "vault_folder": "Vault",
+      "inbox_folder_id": "your-0-inbox-folder-id",
+      "layout": "oaa2b"
+    },
     "github": {
       "owner": "your-github-username",
       "repo": "your-vault-repo",
       "branch": "main",
-      "layout": "obsidian-ai"
+      "layout": "oaa2b",
+      "role": "fallback"
     },
     "local": {
       "folder": "~/Documents/vault",
@@ -29,6 +36,22 @@
     "notebooklm": {
       "notebook_url": "https://notebooklm.google.com/notebook/NOTEBOOK_ID"
     }
+  },
+  "layout_oaa2b": {
+    "write_dir": "0-inbox",
+    "filename": "{slug}-{agent}-{surface}-{YYYY-MM-DD-HHMM}.md",
+    "surface": "cowork",
+    "frontmatter_first": true,
+    "first_body_line": "↑ [[INBOX]]",
+    "rules_file": "START-HERE.md",
+    "law_file": "9-system/sys-law.md",
+    "heartbeat_file": "9-system/state/HEARTBEAT.md",
+    "style_notes": [
+      "me-talk-preferences",
+      "me-writing-voice",
+      "me-reply-patterns"
+    ],
+    "never_edit": true
   },
   "layout_obsidian_ai": {
     "write_dir": "AI/",
@@ -44,5 +67,15 @@
       "CORE/preferences.md"
     ],
     "learned_style_glob": "AI/*-bee-style-*.md"
+  },
+  "workings": {
+    "root": "brain/Workings",
+    "root_folder_id": "your-workings-folder-id",
+    "bee_triage_folder_id": "your-bee-triage-folder-id",
+    "bee_send_folder_id": "your-bee-send-folder-id",
+    "bee_decisions_folder_id": "your-bee-decisions-folder-id",
+    "bee_triage_archive_folder_id": "your-bee-triage-archive-folder-id",
+    "prefix": "",
+    "stamp": "YYYY-MM-DD-HHMM"
   }
 }
