@@ -2,6 +2,10 @@
 
 All notable changes to Beeper Bee. Versions follow the 3-6-9 scheme: the first release is v3.6.9.0.
 
+## v3.7.1 (2026-10-03)
+
+- dispatch: a SEND file with no or unknown chat id now resolves the chat from `to:` by closest match, else most recently contacted, before holding as `nochat`. Missing `confirmed:` falls back to the file's created time.
+
 ## v3.7.0.1 (2026-10-02) , second public release
 
 - Defaults to a Google Drive vault in the **Oaa2B layout** (github.com/jkelvin-com/Oaa2B): create-only into `0-inbox`, frontmatter on line 1, `↑ [[INBOX]]` first, stamped names the vault relay strips to the slug. GitHub becomes the fallback relay. The older `obsidian-ai` layout still works.

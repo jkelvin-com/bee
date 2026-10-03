@@ -1,7 +1,7 @@
 {
   "name": "bee",
   "displayName": "Beeper Bee 🐝",
-  "version": "3.7.0.1",
+  "version": "3.7.1",
   "description": "Beeper Bee 🐝 — a Beeper helper for Claude Cowork. ONE command, the mode is the first argument: triage, reply, recall, remind, log, report, dispatch, setup. Replies in YOUR voice (style pulled live from your notes, never stored in the plugin), literal search & recall, native reminders, a separate real-life moments log for client reports. Memory backend is pluggable: Google Drive vault (Oaa2B layout, default), GitHub vault (fallback), local vault folder, Notion, or NotebookLM.",
   "author": {
     "name": "富源承忠 jKelvin.com",

@@ -9,15 +9,21 @@ A `SEND-…` file IS the user's go. It was written only after the user approved 
 2. **Per file, oldest first:**
    1. **Claim**, rename `SEND-X` to `SENDING-X`. If the rename fails or the file is already gone, skip it (another run has it).
    2. **Read** it. Parse frontmatter and body.
-   3. **Hold checks**, rename to `HELD-X-<reason>.md` and move on when:
-      - `chat` is missing or `get_chat` cannot find it → `nochat`
+   3. **Resolve the chat** (3.7.1). `chat` missing or `get_chat` cannot find it → do not hold yet. Take the recipient name from `to:` (else the title slug, else the body's Recipient line) and look it up, read only:
+      1. `search_chats` on the name (and on any alias or Chinese or English spelling in the file). Pick the **closest match**: exact title first, then a title containing it, then a participant match. Prefer a 1:1 chat on the network the file names, else the most recently active.
+      2. Several equally close → pick the **most recently contacted** one (latest message either side).
+      3. Use that chat id for the send and note it in the run log as `chat resolved: <name> (<network>) by closest match` or `by most recent`, and in the DECISION file frontmatter as `chat_resolved: true`.
+      4. Only when nothing at all matches, hold as `nochat`.
+      A file with no `confirmed:` line but a body that says approved uses the file's Drive created time as `confirmed`.
+   4. **Hold checks**, rename to `HELD-X-<reason>.md` and move on when:
+      - no chat could be found or resolved above → `nochat`
       - the body still contains `[` … `]` → `gap`
       - `confirmed` is more than 24 h ago → `stale`
       - the body is empty → `empty`
       - a `SENT-` file in `bee-send/` already has the same `chat` and `reply_to` (and `reply_to` is not blank) → `dup`
-   4. **Send**, per `sending.md` cadence: `format: paragraphs` → one `send_message` per paragraph, `sleep` 1 to 2 s between; `one-block` → one message. `replyToMessageID` = `reply_to` on the first chunk only. Text verbatim, never re-edited.
-   5. **Mark**, rename `SENDING-X` to `SENT-X`. A send error part-way → rename to `HELD-X-partial.md` and record which chunks went.
-   6. **Record the decision**, for every file that sent at least one message (`SENT-` or `HELD-…-partial`): create `DECISION-<send stamp>-<slug>.md` (`source: bee-send`) in `workings.bee_decisions_folder_id` (format in `workings.md`, `contentMimeType: text/markdown`, `disableConversionToGoogleType: true`).
+   5. **Send**, per `sending.md` cadence: `format: paragraphs` → one `send_message` per paragraph, `sleep` 1 to 2 s between; `one-block` → one message. `replyToMessageID` = `reply_to` on the first chunk only. Text verbatim, never re-edited.
+   6. **Mark**, rename `SENDING-X` to `SENT-X`. A send error part-way → rename to `HELD-X-partial.md` and record which chunks went.
+   7. **Record the decision**, for every file that sent at least one message (`SENT-` or `HELD-…-partial`): create `DECISION-<send stamp>-<slug>.md` (`source: bee-send`) in `workings.bee_decisions_folder_id` (format in `workings.md`, `contentMimeType: text/markdown`, `disableConversionToGoogleType: true`).
       - **Incoming and draft**: the draft lives on the triage board. Read the live `NOW.md` and find the item with the same `chat:` (match by chat, never by item number, which changes every run). Not there any more → look in `workings.bee_triage_archive_folder_id`, newest first, for the snapshot that still has that `chat:` with `run:` = `from_run`'s run. Copy that item's `Original` and `Draft` verbatim (the user's edited draft, if they changed it). Run file or item not found → `Incoming: not found`, `Bee's draft: none`, `verdict: own-words`.
       - **Context**: `list_messages` on the chat (already open for the send) and take the 10 messages just before the incoming (`reply_to`, else the first unread message of the run item), both sides, oldest first, per the `Context` rules in `workings.md`. Read only. Beeper fails here → `Context: not captured`, never block the record.
       - **Final**: the `SEND` body exactly as sent (for a partial send, only the chunks that went, and `partial: true`).
