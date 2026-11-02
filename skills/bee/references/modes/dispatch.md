@@ -21,7 +21,7 @@ A `SEND-…` file IS the user's go. It was written only after the user approved 
       - `confirmed` is more than 24 h ago → `stale`
       - the body is empty → `empty`
       - a `SENT-` file in `bee-send/` already has the same `chat` and `reply_to` (and `reply_to` is not blank) → `dup`
-   5. **Send**, per `sending.md` cadence: `format: paragraphs` → one `send_message` per paragraph, wait 30 to 60 s between; `one-block` → one message. `replyToMessageID` = `reply_to` on the first chunk only. Text verbatim, never re-edited.
+   5. **Send**, per `sending.md` cadence: `format: paragraphs` → one `send_message` per paragraph, wait 9 to 18 s between; `one-block` → one message. `replyToMessageID` = `reply_to` on the first chunk only. Text verbatim, never re-edited.
    6. **Mark**, rename `SENDING-X` to `SENT-X`. A send error part-way → rename to `HELD-X-partial.md` and record which chunks went.
    7. **Record the decision**, for every file that sent at least one message (`SENT-` or `HELD-…-partial`): create `DECISION-<send stamp>-<slug>.md` (`source: bee-send`) in `workings.bee_decisions_folder_id` (format in `workings.md`, `contentMimeType: text/markdown`, `disableConversionToGoogleType: true`).
       - **Incoming and draft**: the draft lives on the triage board. Read the live `NOW.md` and find the item with the same `chat:` (match by chat, never by item number, which changes every run). Not there any more → look in `workings.bee_triage_archive_folder_id`, newest first, for the snapshot that still has that `chat:` with `run:` = `from_run`'s run. Copy that item's `Original` and `Draft` verbatim (the user's edited draft, if they changed it). Run file or item not found → `Incoming: not found`, `Bee's draft: none`, `verdict: own-words`.

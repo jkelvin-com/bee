@@ -2,6 +2,10 @@
 
 All notable changes to Beeper Bee. Versions follow the 3-6-9 scheme: the first release is v3.6.9.0.
 
+## v3.7.4 (2026-11-02)
+
+- Sending: paragraphs now go out a random 9 to 18 s apart, was 30 to 60 s.
+
 ## v3.7.3 (2026-11-02)
 
 - Sending: paragraphs now go out a random 30 to 60 s apart, was 1 to 2 s. A shell that blocks long sleeps runs the wait in the background; a surface that cannot wait queues a `SEND-` file or says so.

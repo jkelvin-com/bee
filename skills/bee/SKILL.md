@@ -37,7 +37,7 @@ bee [mode] [rest]                  ← bare form, no slash, works the same
 
 1. **Load config** first — `references/config.md`. Not set up → run **setup** mode, then continue.
 2. **Backend** — read/write only through the adapter in `references/backends.md`. A failed write never blocks the job; say it in one line.
-3. **Sending** — `references/sending.md`. Show, wait for go, paragraph-per-message, 30 to 60 s apart. Text the assistant writes is shown in chat first and sent only after approval → `references/drafts-not-sends.md`. Files (PDF, image) cannot go through `send_message`; use `references/send-file.md`.
+3. **Sending** — `references/sending.md`. Show, wait for go, paragraph-per-message, 9 to 18 s apart. Text the assistant writes is shown in chat first and sent only after approval → `references/drafts-not-sends.md`. Files (PDF, image) cannot go through `send_message`; use `references/send-file.md`.
 4. **Two streams never mix** — `references/notes.md`. Real-life moments → `bee-moments`; anything pulled from Beeper → `bee-recall`.
 5. **Beeper tool names** vary by host: in Cowork desktop they are `mcp__remote-devices__Beeper_Desktop__*`; in a direct MCP connection `mcp__Beeper_Desktop__*` or `mcp__beeper__*`. If none is loaded, run ToolSearch for "Beeper" once; if still none, tell the user Beeper Desktop isn't connected (see README prerequisites) and stop.
 6. **Beeper search is literal, not semantic** — single words, ALL words must match. Search participants for people, titles for groups.
