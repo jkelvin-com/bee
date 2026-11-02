@@ -18,7 +18,7 @@ Goal: one short interview → a saved config → a smoke test. Keep every questi
 3. **Layout** (vault backends only) — "Oaa2B layout" default: notes are created only in `0-inbox`, frontmatter on line 1, `↑ [[INBOX]]` as the first body line, filename `<slug>-<agent>-<surface>-YYYY-MM-DD-HHMM.md`, never edit a file bee did not create. (Older `obsidian-ai` layout: `AI/` folder, first line `[[AI]]`, for repos that have not moved.) Offer "custom" → ask write folder, filename pattern, first line, base tags.
 4. **Agent name** — prefix for note filenames: `claude` (default) / `chatgpt` / `gemini` / `grok` / other.
 5. **Timezone** — default from the session's timezone.
-6. **Send cadence** — default one paragraph per message, 1–2 s apart. Ask only "keep default?".
+6. **Send cadence** — default one paragraph per message, 30 to 60 s apart. Ask only "keep default?".
 
 ## 2. Bootstrap the backend (vault backends)
 - Drive vault: nothing to bootstrap, the vault already exists; just read `START-HERE.md` and `9-system/sys-law.md`. For an empty GitHub repo or folder that lacks `AI/` (older `obsidian-ai` layout only): create `AI/AI.md` hub note (`# AI` + one line) and, if missing, a minimal `CORE/INSTRUCTIONS.md` copied from `${CLAUDE_PLUGIN_ROOT}/templates/INSTRUCTIONS.template.md` (with the user's name substituted). Ask before creating anything in a non-empty repo.

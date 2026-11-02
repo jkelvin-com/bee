@@ -2,6 +2,13 @@
 
 All notable changes to Beeper Bee. Versions follow the 3-6-9 scheme: the first release is v3.6.9.0.
 
+## v3.7.3 (2026-11-02)
+
+- Sending: paragraphs now go out a random 30 to 60 s apart, was 1 to 2 s. A shell that blocks long sleeps runs the wait in the background; a surface that cannot wait queues a `SEND-` file or says so.
+- Reply: every send records a `DECISION-` file, so replies sent live also teach the reply patterns.
+- Triage: a live triage applies pending `AMEND-` files and publishes a fresh `NOW.md`.
+- New `references/drafts-not-sends.md` (show, approve, then send) and `references/send-file.md` (send a PDF or image through the Desktop API).
+
 ## v3.7.1 (2026-10-03)
 
 - dispatch: a SEND file with no or unknown chat id now resolves the chat from `to:` by closest match, else most recently contacted, before holding as `nochat`. Missing `confirmed:` falls back to the file's created time.

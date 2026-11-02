@@ -6,8 +6,8 @@
   "send": {
     "paragraph_per_message": true,
     "gap_seconds": [
-      1,
-      2
+      30,
+      60
     ]
   },
   "backend": {

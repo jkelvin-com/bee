@@ -27,8 +27,9 @@ Call `read_style(register)` via the backend adapter. It also returns the learned
 Number each proposed change as `"original" → "proposed"` and include deliberate keeps (`kept as is: "share to you"`). Then STOP. Apply exactly what the user rules, one by one. Silent fixes are forbidden. "Pause" = nothing happens.
 
 ## 5. Send
-Per `sending.md`: show the final split, wait for go, one paragraph per `send_message` with 1–2 s gaps, formatted/official text as one message. Report one line with the deeplink.
+Per `sending.md`: show the final split, wait for go, one paragraph per `send_message` with 30 to 60 s gaps, formatted/official text as one message. Report one line with the deeplink.
 
 ## 6. After sending
+- **Record the decision, every time**: right after the last message goes out, create one `DECISION-<send stamp>-<slug>.md` in `workings.bee_decisions_folder_id`, format in `workings.md`: `source: bee-send`, `send_file` blank, `from_run: reply <YYYY-MM-DD HH:MM>` (or `live triage <YYYY-MM-DD HH:MM> item <N>` when the send came from a triage), `confirmed` = when the user said go, `verdict` from the step 4 changes, `Context` from the messages pulled in step 1. Google Drive: `contentMimeType: text/markdown`, `disableConversionToGoogleType: true`. A failed create never undoes a send: retry once, else add `decision not recorded` to the one-line report. This is how `me-reply-patterns` keeps learning; replies sent live used to leave nothing (3 to 17 Oct 2026).
 - If the reply completes something for a client (quote sent, deliverable delivered, confirmation given) → suggest in one line: "log this as a moment? (y/n)". If yes → run **log** mode with the deeplink as evidence.
 - Do not write a `recall` note for ordinary replies.

@@ -84,7 +84,7 @@ Switch backend any time: *"switch bee to Notion"*.
 1. bee picks a register from who you're writing to (`friend-en`, `client`, `formal`, …) and reads that register from your backend at run time.
 2. Unknown register → bee asks you to describe it or paste a sample, saves it as a style note in your backend (and to Anthropic memory if enabled), then continues.
 3. Every proposed edit is shown as `"original" → "proposed"` and waits for your ruling. Nothing is fixed silently.
-4. Sending: one paragraph per message, 1–2 s apart (configurable); formatted/official text goes as one message.
+4. Sending: one paragraph per message, 30 to 60 s apart (configurable); formatted/official text goes as one message.
 
 ---
 
